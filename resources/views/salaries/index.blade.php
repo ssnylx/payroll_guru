@@ -108,6 +108,67 @@
     </div>
 </div>
 
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET" action="{{ route('cetak') }}" target="_blank">
+                    <div class="row g-3 flex-nowrap" style="overflow-x: auto; white-space: nowrap;">
+
+                        <div class="col-12 col-md-2 d-flex align-items-center">
+                            <strong>Unduh Data Gaji</strong>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <label for="month" class="form-label">Bulan</label>
+                            <select class="form-select" id="month" name="month">
+                                <option value="">Semua Bulan</option>
+                                <option value="January" {{ old('bulan') == 'January' ? 'selected' : '' }}>Januari</option>
+                                <option value="February" {{ old('bulan') == 'February' ? 'selected' : '' }}>Februari</option>
+                                <option value="March" {{ old('bulan') == 'March' ? 'selected' : '' }}>Maret</option>
+                                <option value="April" {{ old('bulan') == 'April' ? 'selected' : '' }}>April</option>
+                                <option value="May" {{ old('bulan') == 'May' ? 'selected' : '' }}>Mei</option>
+                                <option value="June" {{ old('bulan') == 'June' ? 'selected' : '' }}>Juni</option>
+                                <option value="July" {{ old('bulan') == 'July' ? 'selected' : '' }}>Juli</option>
+                                <option value="August" {{ old('bulan') == 'August' ? 'selected' : '' }}>Agustus</option>
+                                <option value="September" {{ old('bulan') == 'September' ? 'selected' : '' }}>September</option>
+                                <option value="October" {{ old('bulan') == 'October' ? 'selected' : '' }}>Oktober</option>
+                                <option value="November" {{ old('bulan') == 'November' ? 'selected' : '' }}>November</option>
+                                <option value="December" {{ old('bulan') == 'December' ? 'selected' : '' }}>Desember</option>
+                            </select>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <label for="year" class="form-label">Tahun</label>
+                            <select class="form-select" id="year" name="year">
+                                <option value="">Semua Tahun</option>
+                                @for($i = date('Y'); $i >= 2020; $i--)
+                                    <option value="{{ $i }}" {{ request('year') == $i ? 'selected' : '' }}>
+                                        {{ $i }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 d-flex align-items-end gap-2">
+                            <button type="submit" name="export" value="pdf" class="btn btn-danger w-100">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </button>
+                            {{-- <button type="submit" name="export" value="excel" class="btn btn-success w-100">
+                                <i class="fas fa-file-excel"></i> Excel
+                            </button> --}}
+                            <a href="{{ route('salaries.index') }}" class="btn btn-secondary w-100">
+                                <i class="fas fa-refresh"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12">
         <div class="card">

@@ -74,6 +74,7 @@ Route::middleware(['auth', 'verified', 'password.changed'])->group(function () {
     Route::get('/salaries/{salary}/slip', [SalaryController::class, 'slip'])->name('salaries.slip');
     Route::get('/salaries-bulk/create', [SalaryController::class, 'bulkCreate'])->name('salaries.bulk-create');
     Route::post('/salaries-bulk', [SalaryController::class, 'bulkStore'])->name('salaries.bulk-store');
+    Route::get('/cetak', [SalaryController::class, 'cetak'])->name('cetak');
 
     // Leave Request routes
     Route::resource('leave-requests', LeaveRequestController::class);

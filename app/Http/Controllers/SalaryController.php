@@ -8,6 +8,7 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SalaryController extends Controller
 {
@@ -467,6 +468,49 @@ class SalaryController extends Controller
         }
 
         return $workingDays;
+    }
+
+        public function cetak(Request $request)
+    {
+        $user = Auth::user();
+
+        $month = $request->month ?? '';
+        $year = $request->year ?? '';
+
+        $salaries = Salary::when($request->year, function($query, $year) {
+                    return $query->where('tahun', $year);
+                })
+                ->when($request->month, function($query, $month) {
+                    return $query->where('bulan', $month);
+                })
+                ->orderBy('tahun', 'desc')
+                ->orderBy('bulan', 'desc')
+                ->get();
+
+        // Hitung ulang jam kerja untuk setiap salary
+        foreach ($salaries as $salary) {
+            $teacher = $salary->teacher;
+            if (!$teacher) continue;
+            $monthMapping = [
+                'January'=>1,'February'=>2,'March'=>3,'April'=>4,'May'=>5,'June'=>6,'July'=>7,'August'=>8,
+                'September'=>9,'October'=>10,'November'=>11,'December'=>12
+            ];
+            $month = is_numeric($salary->bulan) ? (int)$salary->bulan : ($monthMapping[$salary->bulan] ?? 1);
+            $start = \Carbon\Carbon::create($salary->tahun, $month, 1)->startOfMonth();
+            $end = (clone $start)->endOfMonth();
+            $jamKerja = 0;
+            $attendances = \App\Models\Attendance::where('teacher_id', $teacher->id)
+                ->whereBetween('tanggal', [$start, $end])
+                ->where('status', 'hadir')
+                ->get();
+            foreach ($attendances as $absen) {
+                $jamKerja += $absen->work_hours;
+            }
+            $salary->jam_kerja = round($jamKerja, 2);
+        }
+
+        $pdf = PDF::loadView('salaries.cetak', compact('salaries', 'month', 'year'));
+        return $pdf->stream('Data Gaji.pdf');
     }
 }
 
