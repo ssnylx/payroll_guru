@@ -350,7 +350,7 @@
                                                 <a href="{{ route('salaries.show', $salary) }}" class="btn btn-outline-info">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                @if(auth()->user()->role === 'admin')
+                                                @if(auth()->user()->role === 'bendahara')
                                                     <a href="{{ route('salaries.edit', $salary) }}" class="btn btn-outline-warning">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
