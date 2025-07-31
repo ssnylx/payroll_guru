@@ -135,7 +135,7 @@
                                                         </form>
                                                     @endif
 
-                                                    @if(in_array(Auth::user()->role, ['admin', 'bendahara']) && $leaveRequest->isPending())
+                                                    @if(Auth::user()->role === 'admin' && $leaveRequest->isPending())
                                                         <button type="button"
                                                                 class="btn btn-sm btn-outline-success"
                                                                 data-bs-toggle="modal"
