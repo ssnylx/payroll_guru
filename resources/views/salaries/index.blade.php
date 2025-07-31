@@ -7,12 +7,7 @@
     <div class="col-12">
         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4">
             <h1 class="h3 mb-2 mb-sm-0">Data Gaji</h1>
-            @if(auth()->user()->role !== 'guru')
-                <div class="btn-group-vertical btn-group-sm d-block d-sm-none mb-2">
-                    <a href="{{ route('salaries.create') }}" class="btn btn-primary mb-1">
-                        <i class="fas fa-plus me-2"></i>Generate Gaji
-                    </a>
-                </div>
+            @if(auth()->user()->role == 'bendahara')
                 <div class="btn-group d-none d-sm-block">
                     <a href="{{ route('salaries.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus me-2"></i>Generate Gaji
@@ -321,7 +316,7 @@
                     <div class="text-center py-4">
                         <i class="fas fa-money-bill-wave fa-4x text-muted mb-3"></i>
                         <p class="text-muted">Belum ada data gaji.</p>
-                        @if(auth()->user()->role !== 'guru')
+                        @if(auth()->user()->role == 'bendahara')
                             <a href="{{ route('salaries.create') }}" class="btn btn-primary">
                                 <i class="fas fa-plus me-2"></i>Generate Gaji Pertama
                             </a>
